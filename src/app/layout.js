@@ -7,7 +7,7 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="es" data-wf-page="landing" data-wf-site="69d7e583131347cd56340660" suppressHydrationWarning>
+    <html lang="es" data-wf-page="landing" data-wf-site="69d7e583131347cd56340660" suppressHydrationWarning style={{scrollBehavior: 'smooth'}}>
       <head>
         <meta charSet="utf-8" />
         <meta content="width=device-width, initial-scale=1" name="viewport" />
@@ -72,6 +72,11 @@ export default function RootLayout({ children }) {
             });
           })();`}
         </Script>
+        <Script
+          src="https://link.marketingsupernova.com/js/external-tracking.js"
+          data-tracking-id="tk_2a8c80b00f33430596c360514a88c90f"
+          strategy="lazyOnload"
+        />
         <Script id="navbar-scroll" strategy="lazyOnload">
           {`(function(){
             var nav = document.querySelector('.navbar-fixed');
