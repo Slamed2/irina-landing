@@ -36,49 +36,37 @@ export default function RootLayout({ children }) {
         />
         <Script id="accordions" strategy="lazyOnload">
           {`(function(){
+            // Set initial state: vertical bar rotated 90deg to form "+"
+            document.querySelectorAll('.accordion-third-style-icon').forEach(function(bar){
+              bar.style.transform = 'rotate(90deg)';
+              bar.style.transition = 'transform 0.3s ease';
+            });
             document.querySelectorAll('.accordion-item-home .accordion-toggle').forEach(function(toggle){
+              toggle.style.cursor = 'pointer';
               toggle.addEventListener('click', function(e){
                 e.preventDefault();
                 var item = this.closest('.accordion-item-home');
                 var list = item.querySelector('.accordion-list-home');
-                var icon = item.querySelector('.accordion-icon');
+                var vertBar = item.querySelector('.accordion-third-style-icon');
                 var isOpen = item.classList.contains('is-open');
                 // Close all others
                 document.querySelectorAll('.accordion-item-home').forEach(function(other){
                   if(other !== item){
                     other.classList.remove('is-open');
                     var ol = other.querySelector('.accordion-list-home');
-                    var oi = other.querySelector('.accordion-icon');
+                    var ov = other.querySelector('.accordion-third-style-icon');
                     if(ol) ol.style.height = '0px';
-                    if(oi) oi.style.transform = 'rotate(0deg)';
+                    if(ov) ov.style.transform = 'rotate(90deg)';
                   }
                 });
                 if(isOpen){
                   item.classList.remove('is-open');
                   list.style.height = '0px';
-                  if(icon) icon.style.transform = 'rotate(0deg)';
+                  if(vertBar) vertBar.style.transform = 'rotate(90deg)';
                 } else {
                   item.classList.add('is-open');
                   list.style.height = list.scrollHeight + 'px';
-                  if(icon) icon.style.transform = 'rotate(45deg)';
-                }
-              });
-            });
-            // Also handle nav dropdowns
-            document.querySelectorAll('.nav-dropdown .nav-dropdown-toggle').forEach(function(toggle){
-              toggle.addEventListener('click', function(e){
-                var dropdown = this.closest('.nav-dropdown');
-                var list = dropdown.querySelector('.nav-dropdown-list');
-                var isOpen = dropdown.classList.contains('w--open');
-                // Close all other nav dropdowns
-                document.querySelectorAll('.nav-dropdown').forEach(function(d){
-                  d.classList.remove('w--open');
-                  var dl = d.querySelector('.nav-dropdown-list');
-                  if(dl) dl.classList.remove('w--open');
-                });
-                if(!isOpen){
-                  dropdown.classList.add('w--open');
-                  if(list) list.classList.add('w--open');
+                  if(vertBar) vertBar.style.transform = 'rotate(0deg)';
                 }
               });
             });
