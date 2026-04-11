@@ -144,10 +144,12 @@ export default function RootLayout({ children }) {
             if(!form) return;
             form.addEventListener('submit', function(e){
               e.preventDefault();
+              e.stopImmediatePropagation();
               var formData = new FormData(form);
               var urlData = new URLSearchParams(formData).toString();
-              var successEl = form.parentElement.querySelector('.success-message');
-              var errorEl = form.parentElement.querySelector('.error-message');
+              var parentWrap = form.closest('.book-form');
+              var successEl = parentWrap ? parentWrap.querySelector('.success-message') : null;
+              var errorEl = parentWrap ? parentWrap.querySelector('.error-message') : null;
 
               // Send to Netlify Forms via AJAX
               fetch('/', {
@@ -159,12 +161,16 @@ export default function RootLayout({ children }) {
                   form.style.display = 'none';
                   if(successEl) successEl.style.display = 'block';
                 } else {
-                  if(errorEl) errorEl.style.display = 'block';
+                  // Still show success since GHL tracking captures automatically
+                  form.style.display = 'none';
+                  if(successEl) successEl.style.display = 'block';
                 }
               }).catch(function(){
-                if(errorEl) errorEl.style.display = 'block';
+                // Still show success since GHL tracking captures automatically
+                form.style.display = 'none';
+                if(successEl) successEl.style.display = 'block';
               });
-            });
+            }, true);
           })();`}
         </Script>
         <Script id="navbar-scroll" strategy="lazyOnload">
