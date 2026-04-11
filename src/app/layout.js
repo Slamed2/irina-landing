@@ -149,26 +149,8 @@ export default function RootLayout({ children }) {
               var successEl = form.parentElement.querySelector('.success-message');
               var errorEl = form.parentElement.querySelector('.error-message');
 
-              // 1) Send to GoHighLevel via tracking script
-              try {
-                if(window._lcTracking && window._lcTracking.tracker){
-                  var data = {};
-                  formData.forEach(function(v,k){ if(k !== 'form-name') data[k] = v; });
-                  window._lcTracking.tracker.apiClient.submitForm({
-                    type: 'form_submission',
-                    formData: data,
-                    properties: {
-                      formId: 'service-form',
-                      formName: 'Service Form',
-                      pageUrl: window.location.href,
-                      pageTitle: document.title
-                    }
-                  });
-                }
-              } catch(err){ console.error('GHL tracking error:', err); }
-
-              // 2) Send to Netlify Forms
-              fetch('/__forms.html', {
+              // Send to Netlify Forms via AJAX
+              fetch('/', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'},
                 body: urlData
