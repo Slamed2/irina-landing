@@ -76,10 +76,6 @@ export default function RootLayout({ children }) {
           src="https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.5.1.min.dc5e7f18c8.js?site=69d7e583131347cd56340660"
           strategy="beforeInteractive"
         />
-        <Script
-          src="https://cdn.prod.website-files.com/69d7e583131347cd56340660/js/webflow.433ae882.7ec71b5e2e11bb75.js"
-          strategy="lazyOnload"
-        />
 <Script id="accordions" strategy="lazyOnload">
           {`(function(){
             // Set initial state: vertical bar rotated 90deg to form "+"
