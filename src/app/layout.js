@@ -17,94 +17,49 @@ export default function RootLayout({ children }) {
         <link href="https://fonts.googleapis.com" rel="preconnect" />
         <script dangerouslySetInnerHTML={{__html: `document.addEventListener('click', function(e){var link=e.target.closest('a[href^="#"]');if(!link)return;var id=link.getAttribute('href').slice(1);if(!id)return;var target=document.getElementById(id);if(!target)return;e.preventDefault();e.stopPropagation();target.scrollIntoView({behavior:'smooth',block:'start'});}, true);`}} />
         <style dangerouslySetInnerHTML={{__html: `
+          body {
+            overflow-x: hidden;
+          }
+          .section, .banner-section-photo {
+            overflow: hidden;
+          }
           [data-w-id] {
             opacity: 0;
-            transform: translateY(30px);
+            transform: translateY(24px);
             transition: opacity 0.7s ease, transform 0.7s ease;
           }
           [data-w-id].revealed {
-            opacity: 1;
-            transform: translateY(0);
+            opacity: 1 !important;
+            transform: translateY(0) translateX(0) scale(1) !important;
           }
-          .banner-content-container[data-w-id] {
-            transition-delay: 0.1s;
-          }
-          .banner-content-container .home-title[data-w-id] {
-            transition-delay: 0.25s;
-          }
-          .banner-content-container .home-banner-discription[data-w-id] {
-            transition-delay: 0.4s;
-          }
-          .banner-content-container .buttons-wrapper[data-w-id] {
-            transition-delay: 0.55s;
-          }
-          .working-numbers-copy[data-w-id] {
-            transition-delay: 0.7s;
-          }
-          .column-two[data-w-id] {
-            transform: translateX(-30px);
-            transition-delay: 0.15s;
-          }
-          .column-two[data-w-id].revealed {
-            transform: translateX(0);
-          }
-          .column-one[data-w-id] {
-            transform: translateX(30px);
-            transition-delay: 0.3s;
-          }
-          .column-one[data-w-id].revealed {
-            transform: translateX(0);
-          }
-          .accordion-item-home[data-w-id] {
-            transition-delay: 0.1s;
-          }
-          .accordion-item-home[data-w-id]:nth-child(2) {
-            transition-delay: 0.25s;
-          }
-          .accordion-item-home[data-w-id]:nth-child(3) {
-            transition-delay: 0.4s;
-          }
-          .work-wrapper[data-w-id] {
-            transform: translateY(40px);
-          }
-          .collection-item-services:nth-child(1) .work-wrapper[data-w-id] {
-            transition-delay: 0.1s;
-          }
-          .collection-item-services:nth-child(2) .work-wrapper[data-w-id] {
-            transition-delay: 0.25s;
-          }
-          .collection-item-services:nth-child(3) .work-wrapper[data-w-id] {
-            transition-delay: 0.4s;
-          }
-          .advantages-wrap[data-w-id] {
-            transition-delay: 0.1s;
-          }
-          .advantages-wrap.center-item[data-w-id] {
-            transition-delay: 0.25s;
-          }
-          .advantages-wrap[data-w-id]:last-child {
-            transition-delay: 0.4s;
-          }
+          .banner-content-container[data-w-id] { transition-delay: 0.1s; }
+          .banner-content-container .home-title[data-w-id] { transition-delay: 0.25s; }
+          .banner-content-container .home-banner-discription[data-w-id] { transition-delay: 0.4s; }
+          .banner-content-container .buttons-wrapper[data-w-id] { transition-delay: 0.55s; }
+          .working-numbers-copy[data-w-id] { transition-delay: 0.7s; }
+          .column-two[data-w-id] { transition-delay: 0.15s; }
+          .column-one[data-w-id] { transition-delay: 0.3s; }
+          .accordion-item-home[data-w-id] { transition-delay: 0.1s; }
+          .accordion-item-home[data-w-id]:nth-child(2) { transition-delay: 0.25s; }
+          .accordion-item-home[data-w-id]:nth-child(3) { transition-delay: 0.4s; }
+          .work-wrapper[data-w-id] { transform: translateY(30px); }
+          .collection-item-services:nth-child(1) .work-wrapper[data-w-id] { transition-delay: 0.1s; }
+          .collection-item-services:nth-child(2) .work-wrapper[data-w-id] { transition-delay: 0.25s; }
+          .collection-item-services:nth-child(3) .work-wrapper[data-w-id] { transition-delay: 0.4s; }
+          .advantages-wrap[data-w-id] { transition-delay: 0.1s; }
+          .advantages-wrap.center-item[data-w-id] { transition-delay: 0.25s; }
+          .advantages-wrap[data-w-id]:last-child { transition-delay: 0.4s; }
           .video-big[data-w-id] {
-            transform: scale(0.95);
+            transform: scale(0.97);
             transition: opacity 0.8s ease, transform 0.8s ease;
           }
-          .video-big[data-w-id].revealed {
-            transform: scale(1);
-          }
-          .video-content[data-w-id] {
-            transition-delay: 0.2s;
-          }
-          .video-button-wrapper[data-w-id] {
-            transition-delay: 0.4s;
-          }
+          .video-content[data-w-id] { transition-delay: 0.2s; }
+          .video-button-wrapper[data-w-id] { transition-delay: 0.4s; }
           .book-wrapper[data-w-id] {
-            transform: translateY(40px);
+            transform: translateY(30px);
             transition: opacity 0.8s ease, transform 0.8s ease;
           }
-          .home-contact-wrapper[data-w-id] {
-            transition-delay: 0.15s;
-          }
+          .home-contact-wrapper[data-w-id] { transition-delay: 0.15s; }
         `}} />
         <link href="https://fonts.gstatic.com" rel="preconnect" crossOrigin="anonymous" />
       </head>
@@ -168,7 +123,7 @@ export default function RootLayout({ children }) {
           data-tracking-id="tk_2a8c80b00f33430596c360514a88c90f"
           strategy="lazyOnload"
         />
-        <Script id="scroll-reveal" strategy="lazyOnload">
+        <Script id="scroll-reveal" strategy="afterInteractive">
           {`(function(){
             var els = document.querySelectorAll('[data-w-id]');
             if(!els.length) return;
