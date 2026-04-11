@@ -15,7 +15,7 @@ export default function RootLayout({ children }) {
         <link href="/website/css/webflow.css" rel="stylesheet" type="text/css" />
         <link href="/website/css/irina-ab21b1.webflow.css" rel="stylesheet" type="text/css" />
         <link href="https://fonts.googleapis.com" rel="preconnect" />
-        <script dangerouslySetInnerHTML={{__html: `document.addEventListener('click', function(e){var link=e.target.closest('a[href^="#"]');if(!link)return;var id=link.getAttribute('href').slice(1);if(!id)return;var target=document.getElementById(id);if(!target)return;e.preventDefault();e.stopPropagation();var navMenu=document.querySelector('.nav-menu');if(navMenu&&navMenu.style.transform==='translateX(0px)'){navMenu.style.transform='translateX(-100%)';var bd=document.querySelector('.menu-backdrop');if(bd)bd.style.display='none';document.body.style.overflow='';}target.scrollIntoView({behavior:'smooth',block:'start'});}, true);`}} />
+        <script dangerouslySetInnerHTML={{__html: `document.addEventListener('click', function(e){var link=e.target.closest('a[href^="#"]');if(!link)return;var id=link.getAttribute('href').slice(1);if(!id)return;var target=document.getElementById(id);if(!target)return;e.preventDefault();e.stopPropagation();var navMenu=document.querySelector('.nav-menu');if(navMenu&&navMenu.classList.contains('menu-open')){navMenu.classList.remove('menu-open');var bd=document.querySelector('.menu-backdrop');if(bd)bd.style.display='none';document.body.style.overflow='';}target.scrollIntoView({behavior:'smooth',block:'start'});}, true);`}} />
         <script dangerouslySetInnerHTML={{__html: `document.addEventListener('DOMContentLoaded', function(){
           var form = document.getElementById('wf-form-Service-Form');
           if(!form) return;
@@ -35,6 +35,33 @@ export default function RootLayout({ children }) {
               if(ok) ok.style.display = 'block';
             });
           });
+        });`}} />
+        <script dangerouslySetInnerHTML={{__html: `document.addEventListener('DOMContentLoaded', function(){
+          var menuBtn = document.querySelector('.menu-button');
+          var closeBtn = document.querySelector('.close-menu-button');
+          var navMenu = document.querySelector('.nav-menu');
+          if(!menuBtn || !navMenu) return;
+
+          var backdrop = document.createElement('div');
+          backdrop.className = 'menu-backdrop';
+          backdrop.style.cssText = 'display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);z-index:99;transition:opacity 0.3s ease;';
+          document.body.appendChild(backdrop);
+
+          function openMenu(){
+            navMenu.classList.add('menu-open');
+            backdrop.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+          }
+          function closeMenu(){
+            navMenu.classList.remove('menu-open');
+            backdrop.style.display = 'none';
+            document.body.style.overflow = '';
+          }
+
+          menuBtn.addEventListener('click', function(e){ e.preventDefault(); openMenu(); });
+          if(closeBtn) closeBtn.addEventListener('click', function(e){ e.preventDefault(); closeMenu(); });
+          backdrop.addEventListener('click', closeMenu);
+          navMenu.querySelectorAll('a').forEach(function(l){ l.addEventListener('click', closeMenu); });
         });`}} />
         <style dangerouslySetInnerHTML={{__html: `
           body {
@@ -80,6 +107,74 @@ export default function RootLayout({ children }) {
             transition: opacity 0.8s ease, transform 0.8s ease;
           }
           .home-contact-wrapper[data-w-id] { transition-delay: 0.15s; }
+
+          /* Desktop: show nav inline */
+          @media (min-width: 992px) {
+            .w-nav[data-collapse='medium'] .w-nav-menu {
+              display: flex !important;
+              position: relative !important;
+              transform: none !important;
+              width: auto !important;
+              height: auto !important;
+              background-color: transparent !important;
+              padding: 0 !important;
+              box-shadow: none !important;
+              overflow: visible !important;
+              float: right !important;
+            }
+            .nav-menu .tablet-menu {
+              display: none !important;
+            }
+            .nav-menu .button-wrapper {
+              display: none !important;
+            }
+            .menu-button {
+              display: none !important;
+            }
+          }
+
+          /* Mobile/Tablet: slide-in panel */
+          @media (max-width: 991px) {
+            .w-nav[data-collapse='medium'] .w-nav-menu {
+              display: block !important;
+              position: fixed !important;
+              top: 0 !important;
+              left: 0 !important;
+              width: 320px !important;
+              max-width: 90vw !important;
+              height: 100vh !important;
+              z-index: 100 !important;
+              background-color: #fff !important;
+              overflow: auto !important;
+              padding: 80px 30px 30px !important;
+              transform: translateX(-100%);
+              transition: transform 0.35s ease !important;
+              box-shadow: 2px 0 20px rgba(0,0,0,0.15);
+              float: none !important;
+            }
+            .nav-menu.menu-open {
+              transform: translateX(0) !important;
+            }
+            .nav-menu .nav-link {
+              color: #1a2238 !important;
+              display: block !important;
+              padding: 14px 0 !important;
+              font-size: 18px !important;
+            }
+            .nav-menu .button-wrapper {
+              display: block;
+              margin-top: 20px;
+            }
+            .nav-menu .primary-button.nav-tablet {
+              display: inline-block !important;
+            }
+            .nav-menu .tablet-menu {
+              display: block;
+              position: absolute;
+              top: 20px;
+              right: 20px;
+            }
+          }
         `}} />
         <link href="https://fonts.gstatic.com" rel="preconnect" crossOrigin="anonymous" />
       </head>
@@ -130,85 +225,6 @@ export default function RootLayout({ children }) {
                   list.style.height = list.scrollHeight + 'px';
                   if(vertBar) vertBar.style.transform = 'rotate(0deg)';
                 }
-              });
-            });
-          })();`}
-        </Script>
-        <Script id="mobile-menu" strategy="afterInteractive">
-          {`(function(){
-            var menuBtn = document.querySelector('.menu-button');
-            var closeBtn = document.querySelector('.close-menu-button');
-            var navMenu = document.querySelector('.nav-menu');
-            var overlay = document.querySelector('.w-nav-overlay');
-            if(!menuBtn || !navMenu) return;
-
-            // Create overlay if it doesn't exist
-            if(!overlay){
-              overlay = document.createElement('div');
-              overlay.className = 'w-nav-overlay';
-              overlay.style.cssText = 'display:none;position:fixed;top:0;left:0;width:100%;height:100%;z-index:99;';
-              document.querySelector('.navbar-fixed').appendChild(overlay);
-            }
-
-            // Set initial hidden state
-            navMenu.style.transform = 'translateX(-100%)';
-            navMenu.style.transition = 'transform 0.4s ease';
-            navMenu.style.display = 'block';
-            navMenu.style.position = 'fixed';
-            navMenu.style.top = '0';
-            navMenu.style.left = '0';
-            navMenu.style.width = '320px';
-            navMenu.style.maxWidth = '90vw';
-            navMenu.style.height = '100vh';
-            navMenu.style.zIndex = '100';
-            navMenu.style.backgroundColor = '#ffffff';
-            navMenu.style.overflow = 'auto';
-            navMenu.style.padding = '20px';
-            navMenu.style.boxShadow = '2px 0 10px rgba(0,0,0,0.15)';
-
-            // Style nav links dark for white bg
-            navMenu.querySelectorAll('.nav-link').forEach(function(l){
-              l.style.color = '#1a2238';
-              l.style.display = 'block';
-              l.style.padding = '12px 0';
-            });
-
-            // Create backdrop
-            var backdrop = document.createElement('div');
-            backdrop.className = 'menu-backdrop';
-            backdrop.style.cssText = 'display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);z-index:99;';
-            document.body.appendChild(backdrop);
-
-            function openMenu(){
-              navMenu.style.transform = 'translateX(0)';
-              backdrop.style.display = 'block';
-              document.body.style.overflow = 'hidden';
-            }
-
-            function closeMenu(){
-              navMenu.style.transform = 'translateX(-100%)';
-              backdrop.style.display = 'none';
-              document.body.style.overflow = '';
-            }
-
-            backdrop.addEventListener('click', closeMenu);
-
-            menuBtn.addEventListener('click', function(e){
-              e.preventDefault();
-              openMenu();
-            });
-
-            if(closeBtn){
-              closeBtn.addEventListener('click', function(e){
-                e.preventDefault();
-                closeMenu();
-              });
-            }
-
-            // Close menu when clicking a nav link
-            navMenu.querySelectorAll('a').forEach(function(link){
-              link.addEventListener('click', function(){
-                closeMenu();
               });
             });
           })();`}
