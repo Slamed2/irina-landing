@@ -138,6 +138,53 @@ export default function RootLayout({ children }) {
             els.forEach(function(el){ observer.observe(el); });
           })();`}
         </Script>
+        <Script id="form-handler" strategy="afterInteractive">
+          {`(function(){
+            var form = document.querySelector('form[name="service-form"]');
+            if(!form) return;
+            form.addEventListener('submit', function(e){
+              e.preventDefault();
+              var formData = new FormData(form);
+              var urlData = new URLSearchParams(formData).toString();
+              var successEl = form.parentElement.querySelector('.success-message');
+              var errorEl = form.parentElement.querySelector('.error-message');
+
+              // 1) Send to GoHighLevel via tracking script
+              try {
+                if(window._lcTracking && window._lcTracking.tracker){
+                  var data = {};
+                  formData.forEach(function(v,k){ if(k !== 'form-name') data[k] = v; });
+                  window._lcTracking.tracker.apiClient.submitForm({
+                    type: 'form_submission',
+                    formData: data,
+                    properties: {
+                      formId: 'service-form',
+                      formName: 'Service Form',
+                      pageUrl: window.location.href,
+                      pageTitle: document.title
+                    }
+                  });
+                }
+              } catch(err){ console.error('GHL tracking error:', err); }
+
+              // 2) Send to Netlify Forms
+              fetch('/__forms.html', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                body: urlData
+              }).then(function(res){
+                if(res.ok){
+                  form.style.display = 'none';
+                  if(successEl) successEl.style.display = 'block';
+                } else {
+                  if(errorEl) errorEl.style.display = 'block';
+                }
+              }).catch(function(){
+                if(errorEl) errorEl.style.display = 'block';
+              });
+            });
+          })();`}
+        </Script>
         <Script id="navbar-scroll" strategy="lazyOnload">
           {`(function(){
             var nav = document.querySelector('.navbar-fixed');
