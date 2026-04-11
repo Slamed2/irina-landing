@@ -15,7 +15,27 @@ export default function RootLayout({ children }) {
         <link href="/website/css/webflow.css" rel="stylesheet" type="text/css" />
         <link href="/website/css/irina-ab21b1.webflow.css" rel="stylesheet" type="text/css" />
         <link href="https://fonts.googleapis.com" rel="preconnect" />
-        <script dangerouslySetInnerHTML={{__html: `document.addEventListener('click', function(e){var link=e.target.closest('a[href^="#"]');if(!link)return;var id=link.getAttribute('href').slice(1);if(!id)return;var target=document.getElementById(id);if(!target)return;e.preventDefault();e.stopPropagation();target.scrollIntoView({behavior:'smooth',block:'start'});}, true);`}} />
+        <script dangerouslySetInnerHTML={{__html: `document.addEventListener('click', function(e){var link=e.target.closest('a[href^="#"]');if(!link)return;var id=link.getAttribute('href').slice(1);if(!id)return;var target=document.getElementById(id);if(!target)return;e.preventDefault();e.stopPropagation();var navMenu=document.querySelector('.nav-menu');if(navMenu&&navMenu.style.transform==='translateX(0px)'){navMenu.style.transform='translateX(-100%)';var bd=document.querySelector('.menu-backdrop');if(bd)bd.style.display='none';document.body.style.overflow='';}target.scrollIntoView({behavior:'smooth',block:'start'});}, true);`}} />
+        <script dangerouslySetInnerHTML={{__html: `document.addEventListener('DOMContentLoaded', function(){
+          var form = document.getElementById('wf-form-Service-Form');
+          if(!form) return;
+          form.addEventListener('submit', function(e){
+            e.preventDefault();
+            var fd = new FormData(form);
+            var body = new URLSearchParams(fd).toString();
+            var wrap = form.closest('.book-form') || form.parentElement;
+            var ok = wrap ? wrap.querySelector('.success-message') : null;
+
+            fetch(window.location.pathname, {
+              method: 'POST',
+              headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+              body: body
+            }).finally(function(){
+              form.style.display = 'none';
+              if(ok) ok.style.display = 'block';
+            });
+          });
+        });`}} />
         <style dangerouslySetInnerHTML={{__html: `
           body {
             overflow-x: hidden;
@@ -114,6 +134,85 @@ export default function RootLayout({ children }) {
             });
           })();`}
         </Script>
+        <Script id="mobile-menu" strategy="afterInteractive">
+          {`(function(){
+            var menuBtn = document.querySelector('.menu-button');
+            var closeBtn = document.querySelector('.close-menu-button');
+            var navMenu = document.querySelector('.nav-menu');
+            var overlay = document.querySelector('.w-nav-overlay');
+            if(!menuBtn || !navMenu) return;
+
+            // Create overlay if it doesn't exist
+            if(!overlay){
+              overlay = document.createElement('div');
+              overlay.className = 'w-nav-overlay';
+              overlay.style.cssText = 'display:none;position:fixed;top:0;left:0;width:100%;height:100%;z-index:99;';
+              document.querySelector('.navbar-fixed').appendChild(overlay);
+            }
+
+            // Set initial hidden state
+            navMenu.style.transform = 'translateX(-100%)';
+            navMenu.style.transition = 'transform 0.4s ease';
+            navMenu.style.display = 'block';
+            navMenu.style.position = 'fixed';
+            navMenu.style.top = '0';
+            navMenu.style.left = '0';
+            navMenu.style.width = '320px';
+            navMenu.style.maxWidth = '90vw';
+            navMenu.style.height = '100vh';
+            navMenu.style.zIndex = '100';
+            navMenu.style.backgroundColor = '#ffffff';
+            navMenu.style.overflow = 'auto';
+            navMenu.style.padding = '20px';
+            navMenu.style.boxShadow = '2px 0 10px rgba(0,0,0,0.15)';
+
+            // Style nav links dark for white bg
+            navMenu.querySelectorAll('.nav-link').forEach(function(l){
+              l.style.color = '#1a2238';
+              l.style.display = 'block';
+              l.style.padding = '12px 0';
+            });
+
+            // Create backdrop
+            var backdrop = document.createElement('div');
+            backdrop.className = 'menu-backdrop';
+            backdrop.style.cssText = 'display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);z-index:99;';
+            document.body.appendChild(backdrop);
+
+            function openMenu(){
+              navMenu.style.transform = 'translateX(0)';
+              backdrop.style.display = 'block';
+              document.body.style.overflow = 'hidden';
+            }
+
+            function closeMenu(){
+              navMenu.style.transform = 'translateX(-100%)';
+              backdrop.style.display = 'none';
+              document.body.style.overflow = '';
+            }
+
+            backdrop.addEventListener('click', closeMenu);
+
+            menuBtn.addEventListener('click', function(e){
+              e.preventDefault();
+              openMenu();
+            });
+
+            if(closeBtn){
+              closeBtn.addEventListener('click', function(e){
+                e.preventDefault();
+                closeMenu();
+              });
+            }
+
+            // Close menu when clicking a nav link
+            navMenu.querySelectorAll('a').forEach(function(link){
+              link.addEventListener('click', function(){
+                closeMenu();
+              });
+            });
+          })();`}
+        </Script>
         <Script
           src="https://link.marketingsupernova.com/js/external-tracking.js"
           data-tracking-id="tk_2a8c80b00f33430596c360514a88c90f"
@@ -132,32 +231,6 @@ export default function RootLayout({ children }) {
               });
             }, {threshold: 0.15, rootMargin: '0px 0px -50px 0px'});
             els.forEach(function(el){ observer.observe(el); });
-          })();`}
-        </Script>
-        <Script id="form-handler" strategy="afterInteractive">
-          {`(function(){
-            var form = document.querySelector('form[name="service-form"]');
-            if(!form) return;
-            form.addEventListener('submit', function(e){
-              e.preventDefault();
-              var formData = new FormData(form);
-              var urlData = new URLSearchParams(formData).toString();
-              var parentWrap = form.closest('.book-form');
-              var successEl = parentWrap ? parentWrap.querySelector('.success-message') : null;
-
-              // Send to Netlify Forms
-              fetch('/website/', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-                body: urlData
-              }).then(function(){
-                form.style.display = 'none';
-                if(successEl) successEl.style.display = 'block';
-              }).catch(function(){
-                form.style.display = 'none';
-                if(successEl) successEl.style.display = 'block';
-              });
-            });
           })();`}
         </Script>
         <Script id="navbar-scroll" strategy="lazyOnload">
