@@ -15,6 +15,7 @@ export default function RootLayout({ children }) {
         <link href="/website/css/webflow.css" rel="stylesheet" type="text/css" />
         <link href="/website/css/irina-ab21b1.webflow.css" rel="stylesheet" type="text/css" />
         <link href="https://fonts.googleapis.com" rel="preconnect" />
+        <script dangerouslySetInnerHTML={{__html: `document.addEventListener('click', function(e){var link=e.target.closest('a[href^="#"]');if(!link)return;var id=link.getAttribute('href').slice(1);if(!id)return;var target=document.getElementById(id);if(!target)return;e.preventDefault();e.stopPropagation();target.scrollIntoView({behavior:'smooth',block:'start'});}, true);`}} />
         <link href="https://fonts.gstatic.com" rel="preconnect" crossOrigin="anonymous" />
       </head>
       <body suppressHydrationWarning>
@@ -34,7 +35,7 @@ export default function RootLayout({ children }) {
           src="https://cdn.prod.website-files.com/69d7e583131347cd56340660/js/webflow.433ae882.7ec71b5e2e11bb75.js"
           strategy="lazyOnload"
         />
-        <Script id="accordions" strategy="lazyOnload">
+<Script id="accordions" strategy="lazyOnload">
           {`(function(){
             // Set initial state: vertical bar rotated 90deg to form "+"
             document.querySelectorAll('.accordion-third-style-icon').forEach(function(bar){
