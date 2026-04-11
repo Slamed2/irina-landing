@@ -11,7 +11,9 @@ export default function RootLayout({ children }) {
       <head>
         <meta charSet="utf-8" />
         <meta content="width=device-width, initial-scale=1" name="viewport" />
-        <link href="https://cdn.prod.website-files.com/69d7e583131347cd56340660/css/irina-ab21b1.webflow.shared.f21cd7ee2.css" rel="stylesheet" type="text/css" />
+        <link href="/website/css/normalize.css" rel="stylesheet" type="text/css" />
+        <link href="/website/css/webflow.css" rel="stylesheet" type="text/css" />
+        <link href="/website/css/irina-ab21b1.webflow.css" rel="stylesheet" type="text/css" />
         <link href="https://fonts.googleapis.com" rel="preconnect" />
         <link href="https://fonts.gstatic.com" rel="preconnect" crossOrigin="anonymous" />
       </head>
@@ -32,6 +34,56 @@ export default function RootLayout({ children }) {
           src="https://cdn.prod.website-files.com/69d7e583131347cd56340660/js/webflow.433ae882.7ec71b5e2e11bb75.js"
           strategy="lazyOnload"
         />
+        <Script id="accordions" strategy="lazyOnload">
+          {`(function(){
+            document.querySelectorAll('.accordion-item-home .accordion-toggle').forEach(function(toggle){
+              toggle.addEventListener('click', function(e){
+                e.preventDefault();
+                var item = this.closest('.accordion-item-home');
+                var list = item.querySelector('.accordion-list-home');
+                var icon = item.querySelector('.accordion-icon');
+                var isOpen = item.classList.contains('is-open');
+                // Close all others
+                document.querySelectorAll('.accordion-item-home').forEach(function(other){
+                  if(other !== item){
+                    other.classList.remove('is-open');
+                    var ol = other.querySelector('.accordion-list-home');
+                    var oi = other.querySelector('.accordion-icon');
+                    if(ol) ol.style.height = '0px';
+                    if(oi) oi.style.transform = 'rotate(0deg)';
+                  }
+                });
+                if(isOpen){
+                  item.classList.remove('is-open');
+                  list.style.height = '0px';
+                  if(icon) icon.style.transform = 'rotate(0deg)';
+                } else {
+                  item.classList.add('is-open');
+                  list.style.height = list.scrollHeight + 'px';
+                  if(icon) icon.style.transform = 'rotate(45deg)';
+                }
+              });
+            });
+            // Also handle nav dropdowns
+            document.querySelectorAll('.nav-dropdown .nav-dropdown-toggle').forEach(function(toggle){
+              toggle.addEventListener('click', function(e){
+                var dropdown = this.closest('.nav-dropdown');
+                var list = dropdown.querySelector('.nav-dropdown-list');
+                var isOpen = dropdown.classList.contains('w--open');
+                // Close all other nav dropdowns
+                document.querySelectorAll('.nav-dropdown').forEach(function(d){
+                  d.classList.remove('w--open');
+                  var dl = d.querySelector('.nav-dropdown-list');
+                  if(dl) dl.classList.remove('w--open');
+                });
+                if(!isOpen){
+                  dropdown.classList.add('w--open');
+                  if(list) list.classList.add('w--open');
+                }
+              });
+            });
+          })();`}
+        </Script>
         <Script id="navbar-scroll" strategy="lazyOnload">
           {`(function(){
             var nav = document.querySelector('.navbar-fixed');
@@ -50,7 +102,7 @@ export default function RootLayout({ children }) {
               nav.style.backgroundColor = scrolled ? '#ffffff' : 'transparent';
               nav.style.boxShadow = scrolled ? '0 2px 10px rgba(0,0,0,0.08)' : 'none';
               if(logo) logo.style.filter = scrolled ? 'invert(1)' : 'none';
-              if(burger) burger.style.filter = scrolled ? 'invert(1)' : 'none';
+              if(burger) burger.style.filter = scrolled ? 'none' : 'invert(1)';
               allText.forEach(function(el){ el.style.color = scrolled ? '#1a2238' : ''; });
               dropdownToggles.forEach(function(t){
                 var icon = t.querySelector('.w-icon-dropdown-toggle');
