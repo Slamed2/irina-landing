@@ -29,7 +29,7 @@ export default function RootLayout({ children }) {
             if(btn) btn.textContent = 'Enviando...';
             if(btn) btn.disabled = true;
 
-            fetch('/', {
+            fetch('/website/__forms.html', {
               method: 'POST',
               headers: {'Content-Type': 'application/x-www-form-urlencoded'},
               body: new URLSearchParams(fd).toString()
