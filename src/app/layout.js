@@ -127,7 +127,7 @@ export default function RootLayout({ children }) {
           .home-contact-wrapper[data-w-id] { transition-delay: 0.15s; }
 
           /* intl-tel-input fixes */
-          .book-inputs-wrapper .iti { display: flex !important; flex: 0 0 auto !important; width: 48.5% !important; box-sizing: border-box !important; }
+          .book-inputs-wrapper .iti { display: flex !important; flex: 1 1 100% !important; width: 100% !important; box-sizing: border-box !important; }
           .book-inputs-wrapper .iti input[type=tel] { width: 100% !important; box-sizing: border-box !important; }
           .iti__flag-container { z-index: 10; }
           .iti__country-list {
