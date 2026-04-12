@@ -17,6 +17,37 @@ export default function RootLayout({ children }) {
         <link href="https://fonts.googleapis.com" rel="preconnect" />
         <script dangerouslySetInnerHTML={{__html: `document.addEventListener('click', function(e){var link=e.target.closest('a[href^="#"]');if(!link)return;var id=link.getAttribute('href').slice(1);if(!id)return;var target=document.getElementById(id);if(!target)return;e.preventDefault();e.stopPropagation();var navMenu=document.querySelector('.nav-menu');if(navMenu&&navMenu.classList.contains('menu-open')){navMenu.classList.remove('menu-open');var bd=document.querySelector('.menu-backdrop');if(bd)bd.style.display='none';document.body.style.overflow='';}target.scrollIntoView({behavior:'smooth',block:'start'});}, true);`}} />
         <script dangerouslySetInnerHTML={{__html: `document.addEventListener('DOMContentLoaded', function(){
+          var form = document.getElementById('wf-form-Service-Form');
+          if(!form) return;
+          form.addEventListener('submit', function(e){
+            e.preventDefault();
+            var fd = new FormData(form);
+            if(!fd.has('form-name')) fd.append('form-name','service-form');
+            var wrap = form.closest('.book-form') || form.parentElement;
+            var ok = wrap ? wrap.querySelector('.success-message') : null;
+            var err = wrap ? wrap.querySelector('.error-message') : null;
+            var btn = form.querySelector('[type=submit]');
+            if(btn) btn.value = 'Enviando...';
+
+            fetch('/', {
+              method: 'POST',
+              headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+              body: new URLSearchParams(fd).toString()
+            }).then(function(r){
+              if(r.ok || r.status === 303 || r.status === 302){
+                form.style.display = 'none';
+                if(ok) ok.style.display = 'block';
+              } else {
+                if(err) err.style.display = 'block';
+                if(btn) btn.value = 'Enviar solicitud';
+              }
+            }).catch(function(){
+              if(err) err.style.display = 'block';
+              if(btn) btn.value = 'Enviar solicitud';
+            });
+          });
+        });`}} />
+        <script dangerouslySetInnerHTML={{__html: `document.addEventListener('DOMContentLoaded', function(){
           var menuBtn = document.querySelector('.menu-button');
           var closeBtn = document.querySelector('.close-menu-button');
           var navMenu = document.querySelector('.nav-menu');
