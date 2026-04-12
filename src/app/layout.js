@@ -20,35 +20,15 @@ export default function RootLayout({ children }) {
           if(window._formReady) return;
           window._formReady = true;
           function initForm(){
+            var iframe = document.getElementById('form-target');
             var form = document.getElementById('contact-form');
-            if(!form || form._bound) return;
-            form._bound = true;
-            form.addEventListener('submit', function(e){
-              e.preventDefault();
-              var fd = new FormData(form);
-              if(!fd.has('form-name')) fd.append('form-name','service-form');
+            if(!iframe || !form) return;
+            var loaded = false;
+            iframe.addEventListener('load', function(){
+              if(!loaded){ loaded = true; return; }
+              form.style.display = 'none';
               var ok = document.getElementById('form-success');
-              var err = document.getElementById('form-error');
-              var btn = form.querySelector('button[type=submit]');
-              if(btn) btn.textContent = 'Enviando...';
-              if(btn) btn.disabled = true;
-
-              fetch('/website/__forms.html', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-                body: new URLSearchParams(fd).toString()
-              }).then(function(r){
-                if(r.ok){
-                  form.style.display = 'none';
-                  if(ok) ok.style.display = 'block';
-                } else {
-                  if(err) err.style.display = 'block';
-                  if(btn){ btn.textContent = 'Enviar solicitud'; btn.disabled = false; }
-                }
-              }).catch(function(){
-                if(err) err.style.display = 'block';
-                if(btn){ btn.textContent = 'Enviar solicitud'; btn.disabled = false; }
-              });
+              if(ok) ok.style.display = 'block';
             });
           }
           if(document.readyState === 'loading'){
