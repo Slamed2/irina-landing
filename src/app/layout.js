@@ -300,7 +300,7 @@ export default function RootLayout({ children }) {
         <script
           src="https://link.marketingsupernova.com/js/external-tracking.js"
           data-tracking-id="tk_2a8c80b00f33430596c360514a88c90f"
-          data-debug="true">
+>
         </script>
       </body>
     </html>
