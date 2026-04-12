@@ -126,6 +126,35 @@ export default function RootLayout({ children }) {
           }
           .home-contact-wrapper[data-w-id] { transition-delay: 0.15s; }
 
+          /* intl-tel-input fixes */
+          .iti { width: 100% !important; }
+          .iti__flag-container { z-index: 10; }
+          .iti__country-list {
+            z-index: 100 !important;
+            max-height: 200px !important;
+            overflow-y: auto !important;
+            background: #fff !important;
+            border: 1px solid #ddd !important;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15) !important;
+            border-radius: 4px !important;
+          }
+          .iti__country-list .iti__country {
+            padding: 8px 10px !important;
+            font-size: 14px !important;
+            color: #333 !important;
+          }
+          .iti__country-list .iti__country:hover,
+          .iti__country-list .iti__country.iti__highlight {
+            background-color: #f0f0f0 !important;
+          }
+          .iti input[type=tel] {
+            padding-left: 52px !important;
+            width: 100% !important;
+          }
+          .form-book-input.is-invalid {
+            border-color: #e74c3c !important;
+          }
+
           /* Desktop: show nav inline */
           @media (min-width: 992px) {
             .w-nav[data-collapse='medium'] .w-nav-menu {
