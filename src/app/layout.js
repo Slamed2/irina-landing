@@ -127,7 +127,8 @@ export default function RootLayout({ children }) {
           .home-contact-wrapper[data-w-id] { transition-delay: 0.15s; }
 
           /* intl-tel-input fixes */
-          .iti { width: 100% !important; }
+          .book-inputs-wrapper .iti { flex: 1 1 0% !important; display: flex !important; }
+          .book-inputs-wrapper .iti input[type=tel] { width: 100% !important; }
           .iti__flag-container { z-index: 10; }
           .iti__country-list {
             z-index: 100 !important;
@@ -137,11 +138,17 @@ export default function RootLayout({ children }) {
             border: 1px solid #ddd !important;
             box-shadow: 0 4px 12px rgba(0,0,0,0.15) !important;
             border-radius: 4px !important;
+            white-space: nowrap !important;
           }
           .iti__country-list .iti__country {
             padding: 8px 10px !important;
             font-size: 14px !important;
             color: #333 !important;
+          }
+          .iti__country-list .iti__country-name,
+          .iti__country-list .iti__dial-code {
+            color: #333 !important;
+            -webkit-text-fill-color: #333 !important;
           }
           .iti__country-list .iti__country:hover,
           .iti__country-list .iti__country.iti__highlight {
@@ -149,7 +156,6 @@ export default function RootLayout({ children }) {
           }
           .iti input[type=tel] {
             padding-left: 52px !important;
-            width: 100% !important;
           }
           .form-book-input.is-invalid {
             border-color: #e74c3c !important;
