@@ -247,11 +247,6 @@ export default function RootLayout({ children }) {
             });
           })();`}
         </Script>
-        <Script
-          src="https://link.marketingsupernova.com/js/external-tracking.js"
-          data-tracking-id="tk_2a8c80b00f33430596c360514a88c90f"
-          strategy="lazyOnload"
-        />
         <Script id="scroll-reveal" strategy="afterInteractive">
           {`(function(){
             var els = document.querySelectorAll('[data-w-id]');
@@ -302,6 +297,10 @@ export default function RootLayout({ children }) {
             applyScroll();
           })();`}
         </Script>
+        <script
+          src="https://link.marketingsupernova.com/js/external-tracking.js"
+          data-tracking-id="tk_2a8c80b00f33430596c360514a88c90f">
+        </script>
       </body>
     </html>
   );
