@@ -11,9 +11,9 @@ export default function RootLayout({ children }) {
       <head>
         <meta charSet="utf-8" />
         <meta content="width=device-width, initial-scale=1" name="viewport" />
-        <link href="/website/css/normalize.css" rel="stylesheet" type="text/css" />
-        <link href="/website/css/webflow.css" rel="stylesheet" type="text/css" />
-        <link href="/website/css/irina-ab21b1.webflow.css" rel="stylesheet" type="text/css" />
+        <link href="/css/normalize.css" rel="stylesheet" type="text/css" />
+        <link href="/css/webflow.css" rel="stylesheet" type="text/css" />
+        <link href="/css/irina-ab21b1.webflow.css" rel="stylesheet" type="text/css" />
         <link href="https://fonts.googleapis.com" rel="preconnect" />
         <script dangerouslySetInnerHTML={{__html: `document.addEventListener('click', function(e){var link=e.target.closest('a[href^="#"]');if(!link)return;var id=link.getAttribute('href').slice(1);if(!id)return;var target=document.getElementById(id);if(!target)return;e.preventDefault();e.stopPropagation();var navMenu=document.querySelector('.nav-menu');if(navMenu&&navMenu.classList.contains('menu-open')){navMenu.classList.remove('menu-open');var bd=document.querySelector('.menu-backdrop');if(bd)bd.style.display='none';document.body.style.overflow='';}target.scrollIntoView({behavior:'smooth',block:'start'});}, true);`}} />
         <script dangerouslySetInnerHTML={{__html: `(function(){
@@ -31,7 +31,7 @@ export default function RootLayout({ children }) {
               var err = document.getElementById('form-error');
               var btn = form.querySelector('input[type=submit]');
               if(btn){ btn.value = 'Enviando...'; btn.disabled = true; }
-              fetch('/website/__forms.html', {
+              fetch('/__forms.html', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'},
                 body: new URLSearchParams(fd).toString()
