@@ -23,31 +23,19 @@ export default function RootLayout({ children }) {
             var form = document.getElementById('contact-form');
             if(!form || form._bound) return;
             form._bound = true;
-            form.addEventListener('submit', function(e){
-              e.preventDefault();
-              var fd = new FormData(form);
-              if(!fd.has('form-name')) fd.append('form-name','service-form');
-              var ok = document.getElementById('form-success');
-              var err = document.getElementById('form-error');
+            var iframe = document.createElement('iframe');
+            iframe.name = 'netlify-submit';
+            iframe.style.display = 'none';
+            document.body.appendChild(iframe);
+            form.target = 'netlify-submit';
+            form.addEventListener('submit', function(){
               var btn = form.querySelector('input[type=submit]');
               if(btn){ btn.value = 'Enviando...'; btn.disabled = true; }
-
-              fetch('/website/__forms.html', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-                body: new URLSearchParams(fd).toString()
-              }).then(function(r){
-                if(r.ok){
-                  form.style.display = 'none';
-                  if(ok) ok.style.display = 'block';
-                } else {
-                  if(err) err.style.display = 'block';
-                  if(btn){ btn.value = 'Enviar solicitud'; btn.disabled = false; }
-                }
-              }).catch(function(){
-                if(err) err.style.display = 'block';
-                if(btn){ btn.value = 'Enviar solicitud'; btn.disabled = false; }
-              });
+              setTimeout(function(){
+                form.style.display = 'none';
+                var ok = document.getElementById('form-success');
+                if(ok) ok.style.display = 'block';
+              }, 1500);
             });
           }
           if(document.readyState === 'loading'){
