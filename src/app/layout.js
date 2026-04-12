@@ -14,6 +14,7 @@ export default function RootLayout({ children }) {
         <link href="/css/normalize.css" rel="stylesheet" type="text/css" />
         <link href="/css/webflow.css" rel="stylesheet" type="text/css" />
         <link href="/css/irina-ab21b1.webflow.css" rel="stylesheet" type="text/css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.min.css" />
         <link href="https://fonts.googleapis.com" rel="preconnect" />
         <script dangerouslySetInnerHTML={{__html: `document.addEventListener('click', function(e){var link=e.target.closest('a[href^="#"]');if(!link)return;var id=link.getAttribute('href').slice(1);if(!id)return;var target=document.getElementById(id);if(!target)return;e.preventDefault();e.stopPropagation();var navMenu=document.querySelector('.nav-menu');if(navMenu&&navMenu.classList.contains('menu-open')){navMenu.classList.remove('menu-open');var bd=document.querySelector('.menu-backdrop');if(bd)bd.style.display='none';document.body.style.overflow='';}target.scrollIntoView({behavior:'smooth',block:'start'});}, true);`}} />
         <script dangerouslySetInnerHTML={{__html: `(function(){
@@ -296,11 +297,119 @@ export default function RootLayout({ children }) {
             applyScroll();
           })();`}
         </Script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
+        <script dangerouslySetInnerHTML={{__html: `(function(){
+          try{
+            var urlField=document.getElementById('field_url');
+            if(urlField) urlField.value=window.location.href;
+            var ipField=document.getElementById('field_ip');
+            if(ipField){
+              fetch('https://api.ipify.org?format=json')
+                .then(function(r){return r.json();})
+                .then(function(d){ipField.value=d&&d.ip?d.ip:'';})
+                .catch(function(){});
+            }
+          }catch(_){}
+
+          $(function(){
+            $('input[ms-code-phone-number]').each(function(){
+              var input=this;
+              if(input.dataset.msItiInit==='1') return;
+              input.dataset.msItiInit='1';
+              if(!window.intlTelInput) return;
+
+              try{
+                input.setAttribute('inputmode','tel');
+                input.setAttribute('enterkeyhint','done');
+                input.setAttribute('autocomplete','tel');
+              }catch(_){}
+
+              var preferredCountries=($(input).attr('ms-code-phone-number')||'').split(',').map(function(s){return s.trim();}).filter(Boolean);
+
+              var iti=window.intlTelInput(input,{
+                preferredCountries:preferredCountries,
+                initialCountry:'auto',
+                geoIpLookup:function(cb){
+                  fetch('https://ipapi.co/json/')
+                    .then(function(r){return r.json();})
+                    .then(function(d){cb(d&&d.country?d.country:'US');})
+                    .catch(function(){cb('US');});
+                },
+                nationalMode:true,
+                formatOnDisplay:false,
+                autoPlaceholder:'polite',
+                separateDialCode:false,
+                utilsScript:'https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js'
+              });
+
+              function ensureE164IfFilled(){
+                var raw=(input.value||'').trim();
+                if(!raw) return;
+                var digits=raw.replace(/\\D/g,'');
+                if(!digits) return;
+                var e164='';
+                if(raw.startsWith('+')&&!/^\\+\\d{1,4}$/.test(raw)){
+                  e164=raw.replace(/\\s+/g,'');
+                }
+                if(!e164&&window.intlTelInputUtils&&iti){
+                  var libVal=iti.getNumber(window.intlTelInputUtils.numberFormat.E164)||'';
+                  if(libVal&&!/^\\+\\d{1,4}$/.test(libVal)) e164=libVal;
+                }
+                if(!e164){
+                  var sel=(iti&&iti.getSelectedCountryData&&iti.getSelectedCountryData())||{};
+                  var dial=sel&&sel.dialCode?String(sel.dialCode):'';
+                  var stripped=dial&&digits.startsWith(dial)?digits.slice(dial.length):digits;
+                  if(dial&&stripped.length>=6){e164='+'+dial+stripped;}else{return;}
+                }
+                if(e164){input.value=e164;input.setAttribute('value',e164);}
+              }
+
+              input.addEventListener('blur',function(){
+                try{
+                  var hasVal=!!(input.value||'').trim();
+                  if(!hasVal){input.classList.remove('is-invalid');return;}
+                  if(window.intlTelInputUtils){input.classList.toggle('is-invalid',!iti.isValidNumber());}
+                }catch(_){}
+              });
+
+              var form=input.form||$(input).closest('form')[0];
+              if(form){
+                form.addEventListener('submit',function(){
+                  if(!(input.value||'').trim()) return;
+                  ensureE164IfFilled();
+                },true);
+                form.addEventListener('keydown',function(e){
+                  if(e.key==='Enter') ensureE164IfFilled();
+                },true);
+                var submits=form.querySelectorAll('button[type=submit],input[type=submit]');
+                submits.forEach(function(btn){
+                  ['pointerdown','touchstart','mousedown','click'].forEach(function(evt){
+                    btn.addEventListener(evt,ensureE164IfFilled,true);
+                  });
+                });
+                if('onformdata' in form){
+                  form.addEventListener('formdata',function(ev){
+                    ensureE164IfFilled();
+                    ev.formData.set(input.name,input.value||'');
+                  });
+                }
+                form.addEventListener('submit',function(e){
+                  var hasVal=!!(input.value||'').trim();
+                  if(hasVal&&window.intlTelInputUtils&&!iti.isValidNumber()){
+                    e.preventDefault();
+                    input.classList.add('is-invalid');
+                    input.focus();
+                  }
+                },true);
+              }
+            });
+          });
+        })();`}} />
         <script
           src="https://link.marketingsupernova.com/js/external-tracking.js"
           data-tracking-id="tk_2a8c80b00f33430596c360514a88c90f"
->
-        </script>
+        ></script>
       </body>
     </html>
   );
