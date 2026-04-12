@@ -29,7 +29,7 @@ export default function RootLayout({ children }) {
             var btn = form.querySelector('[type=submit]');
             if(btn) btn.value = 'Enviando...';
 
-            fetch('/', {
+            fetch(window.location.pathname, {
               method: 'POST',
               headers: {'Content-Type': 'application/x-www-form-urlencoded'},
               body: new URLSearchParams(fd).toString()
