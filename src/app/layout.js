@@ -17,14 +17,42 @@ export default function RootLayout({ children }) {
         <link href="https://fonts.googleapis.com" rel="preconnect" />
         <script dangerouslySetInnerHTML={{__html: `document.addEventListener('click', function(e){var link=e.target.closest('a[href^="#"]');if(!link)return;var id=link.getAttribute('href').slice(1);if(!id)return;var target=document.getElementById(id);if(!target)return;e.preventDefault();e.stopPropagation();var navMenu=document.querySelector('.nav-menu');if(navMenu&&navMenu.classList.contains('menu-open')){navMenu.classList.remove('menu-open');var bd=document.querySelector('.menu-backdrop');if(bd)bd.style.display='none';document.body.style.overflow='';}target.scrollIntoView({behavior:'smooth',block:'start'});}, true);`}} />
         <script dangerouslySetInnerHTML={{__html: `(function(){
-          if(window.location.search.indexOf('success=true') !== -1){
-            document.addEventListener('DOMContentLoaded', function(){
-              var form = document.getElementById('contact-form');
+          if(window._formReady) return;
+          window._formReady = true;
+          function initForm(){
+            var form = document.getElementById('contact-form');
+            if(!form || form._bound) return;
+            form._bound = true;
+            form.addEventListener('submit', function(e){
+              e.preventDefault();
+              var fd = new FormData(form);
+              if(!fd.has('form-name')) fd.append('form-name','service-form');
               var ok = document.getElementById('form-success');
-              if(form) form.style.display = 'none';
-              if(ok) ok.style.display = 'block';
+              var err = document.getElementById('form-error');
+              var btn = form.querySelector('input[type=submit]');
+              if(btn){ btn.value = 'Enviando...'; btn.disabled = true; }
+
+              fetch('/website/__forms.html', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                body: new URLSearchParams(fd).toString()
+              }).then(function(r){
+                if(r.ok){
+                  form.style.display = 'none';
+                  if(ok) ok.style.display = 'block';
+                } else {
+                  if(err) err.style.display = 'block';
+                  if(btn){ btn.value = 'Enviar solicitud'; btn.disabled = false; }
+                }
+              }).catch(function(){
+                if(err) err.style.display = 'block';
+                if(btn){ btn.value = 'Enviar solicitud'; btn.disabled = false; }
+              });
             });
           }
+          if(document.readyState === 'loading'){
+            document.addEventListener('DOMContentLoaded', initForm);
+          } else { initForm(); }
         })();`}} />
         <script dangerouslySetInnerHTML={{__html: `document.addEventListener('DOMContentLoaded', function(){
           var menuBtn = document.querySelector('.menu-button');
