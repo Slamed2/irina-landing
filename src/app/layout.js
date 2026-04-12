@@ -127,11 +127,12 @@ export default function RootLayout({ children }) {
           .home-contact-wrapper[data-w-id] { transition-delay: 0.15s; }
 
           /* intl-tel-input fixes */
-          .book-inputs-wrapper .iti { display: flex !important; box-sizing: border-box !important; flex: 0 0 48.5% !important; width: 48.5% !important; }
-          .book-inputs-wrapper .select-book { flex: 0 0 48.5% !important; width: 48.5% !important; }
+          .book-inputs-wrapper { display: flex !important; flex-wrap: wrap !important; column-gap: 20px !important; }
+          .book-inputs-wrapper .iti { display: flex !important; box-sizing: border-box !important; flex: 0 0 calc(50% - 10px) !important; width: calc(50% - 10px) !important; max-width: calc(50% - 10px) !important; }
+          .book-inputs-wrapper .select-book { flex: 0 0 calc(50% - 10px) !important; width: calc(50% - 10px) !important; max-width: calc(50% - 10px) !important; box-sizing: border-box !important; }
           @media (max-width: 767px) {
-            .book-inputs-wrapper .iti { width: 100% !important; flex: 1 1 100% !important; }
-            .book-inputs-wrapper .select-book { width: 100% !important; flex: 1 1 100% !important; }
+            .book-inputs-wrapper .iti { width: 100% !important; flex: 1 1 100% !important; max-width: 100% !important; }
+            .book-inputs-wrapper .select-book { width: 100% !important; flex: 1 1 100% !important; max-width: 100% !important; }
           }
           .book-inputs-wrapper .iti input[type=tel] { width: 100% !important; box-sizing: border-box !important; }
           .iti__flag-container { z-index: 10; }
@@ -164,6 +165,22 @@ export default function RootLayout({ children }) {
           }
           .form-book-input.is-invalid {
             border-color: #e74c3c !important;
+          }
+
+          /* Submit button: right-aligned, auto-width on desktop */
+          .book-form-block .buttons-wrapper {
+            display: flex !important;
+            justify-content: flex-end !important;
+          }
+          .book-form-block .buttons-wrapper .primary-button.w-button {
+            width: auto !important;
+            padding-left: 40px !important;
+            padding-right: 40px !important;
+          }
+          @media (max-width: 767px) {
+            .book-form-block .buttons-wrapper .primary-button.w-button {
+              width: 100% !important;
+            }
           }
 
           /* Desktop: show nav inline */
