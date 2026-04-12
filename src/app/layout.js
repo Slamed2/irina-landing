@@ -17,24 +17,13 @@ export default function RootLayout({ children }) {
         <link href="https://fonts.googleapis.com" rel="preconnect" />
         <script dangerouslySetInnerHTML={{__html: `document.addEventListener('click', function(e){var link=e.target.closest('a[href^="#"]');if(!link)return;var id=link.getAttribute('href').slice(1);if(!id)return;var target=document.getElementById(id);if(!target)return;e.preventDefault();e.stopPropagation();var navMenu=document.querySelector('.nav-menu');if(navMenu&&navMenu.classList.contains('menu-open')){navMenu.classList.remove('menu-open');var bd=document.querySelector('.menu-backdrop');if(bd)bd.style.display='none';document.body.style.overflow='';}target.scrollIntoView({behavior:'smooth',block:'start'});}, true);`}} />
         <script dangerouslySetInnerHTML={{__html: `(function(){
-          if(window._formReady) return;
-          window._formReady = true;
-          function initForm(){
-            var iframe = document.getElementById('form-target');
-            var form = document.getElementById('contact-form');
-            if(!iframe || !form) return;
-            var loaded = false;
-            iframe.addEventListener('load', function(){
-              if(!loaded){ loaded = true; return; }
-              form.style.display = 'none';
+          if(window.location.search.indexOf('success=true') !== -1){
+            document.addEventListener('DOMContentLoaded', function(){
+              var form = document.getElementById('contact-form');
               var ok = document.getElementById('form-success');
+              if(form) form.style.display = 'none';
               if(ok) ok.style.display = 'block';
             });
-          }
-          if(document.readyState === 'loading'){
-            document.addEventListener('DOMContentLoaded', initForm);
-          } else {
-            initForm();
           }
         })();`}} />
         <script dangerouslySetInnerHTML={{__html: `document.addEventListener('DOMContentLoaded', function(){
