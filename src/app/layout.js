@@ -266,9 +266,12 @@ export default function RootLayout({ children }) {
             }
           }
 
-          /* Logo: white by default, dark on scroll */
+          /* Logo: white on dark hero, gray natural on scroll */
           .logo-main {
+            filter: brightness(0) invert(1);
             transition: filter 0.3s ease;
+            height: 46px !important;
+            width: auto !important;
           }
 
           /* Desktop: show nav inline */
@@ -424,7 +427,7 @@ export default function RootLayout({ children }) {
               var scrolled = window.scrollY > 50;
               nav.style.backgroundColor = scrolled ? '#ffffff' : 'transparent';
               nav.style.boxShadow = scrolled ? '0 2px 10px rgba(0,0,0,0.08)' : 'none';
-              if(logo) logo.style.filter = scrolled ? 'invert(1)' : 'none';
+              if(logo) logo.style.filter = scrolled ? 'none' : 'brightness(0) invert(1)';
               if(burger) burger.style.filter = scrolled ? 'none' : 'invert(1)';
               allText.forEach(function(el){ el.style.color = scrolled ? '#1a2238' : ''; });
               dropdownToggles.forEach(function(t){
