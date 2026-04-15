@@ -266,12 +266,11 @@ export default function RootLayout({ children }) {
             }
           }
 
-          /* Logo: white on dark hero, gray natural on scroll */
+          /* Logo swap */
           .logo-main {
-            filter: brightness(0) invert(1);
-            transition: filter 0.3s ease;
             height: 46px !important;
             width: auto !important;
+            transition: opacity 0.3s ease;
           }
 
           /* Desktop: show nav inline */
@@ -414,20 +413,21 @@ export default function RootLayout({ children }) {
           {`(function(){
             var nav = document.querySelector('.navbar-fixed');
             if(!nav) return;
-            var logo = nav.querySelector('.logo-main');
+            var logoWhite = nav.querySelector('.logo-white');
+            var logoDark = nav.querySelector('.logo-dark');
             var allText = nav.querySelectorAll('.nav-item-title, .nav-link, .nav-dropdown-icon');
             var burger = nav.querySelector('.image-burger');
             var btn = nav.querySelector('.primary-button.light');
             var dropdownToggles = nav.querySelectorAll('.nav-dropdown-toggle');
             var menuBtn = nav.querySelector('.menu-button');
             nav.style.transition = 'all 0.3s ease';
-            if(logo) logo.style.transition = 'filter 0.3s ease';
             if(burger) burger.style.transition = 'filter 0.3s ease';
             function applyScroll(){
               var scrolled = window.scrollY > 50;
               nav.style.backgroundColor = scrolled ? '#ffffff' : 'transparent';
               nav.style.boxShadow = scrolled ? '0 2px 10px rgba(0,0,0,0.08)' : 'none';
-              if(logo) logo.style.filter = scrolled ? 'none' : 'brightness(0) invert(1)';
+              if(logoWhite) logoWhite.style.display = scrolled ? 'none' : 'block';
+              if(logoDark) logoDark.style.display = scrolled ? 'block' : 'none';
               if(burger) burger.style.filter = scrolled ? 'none' : 'invert(1)';
               allText.forEach(function(el){ el.style.color = scrolled ? '#1a2238' : ''; });
               dropdownToggles.forEach(function(t){
