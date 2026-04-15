@@ -82,8 +82,114 @@ export default function RootLayout({ children }) {
           navMenu.querySelectorAll('a').forEach(function(l){ l.addEventListener('click', closeMenu); });
         });`}} />
         <style dangerouslySetInnerHTML={{__html: `
+          :root {
+            --primary-dark: #1A1A2E !important;
+            --primary: #1A1A2E !important;
+            --primary-semi: rgba(26,26,46,0.4) !important;
+            --primary-light: #FFF0EC !important;
+          }
           body {
             overflow-x: hidden;
+            background-color: #FAFAF8;
+          }
+
+          /* Vibrant CTA buttons */
+          .primary-button {
+            background: linear-gradient(135deg, #FF5C3A, #FF3D6E) !important;
+            border: none !important;
+            color: #fff !important;
+            font-weight: 600 !important;
+            transition: transform 0.2s ease, box-shadow 0.2s ease !important;
+          }
+          .primary-button:hover {
+            transform: translateY(-2px) !important;
+            box-shadow: 0 6px 20px rgba(255,92,58,0.4) !important;
+            background: linear-gradient(135deg, #FF3D6E, #FF5C3A) !important;
+            color: #fff !important;
+          }
+          .primary-button.outline, .primary-button.outline-light {
+            background: transparent !important;
+            border: 2px solid #fff !important;
+            color: #fff !important;
+          }
+          .primary-button.outline-light:hover {
+            background: rgba(255,255,255,0.15) !important;
+            color: #fff !important;
+          }
+          .primary-button.outline {
+            border-color: #FF5C3A !important;
+            color: #FF5C3A !important;
+          }
+          .primary-button.outline:hover {
+            background: #FF5C3A !important;
+            color: #fff !important;
+          }
+          .primary-button.light {
+            background: linear-gradient(135deg, #FF5C3A, #FF3D6E) !important;
+            border: none !important;
+            color: #fff !important;
+          }
+          .primary-button.light:hover {
+            transform: translateY(-2px) !important;
+            box-shadow: 0 6px 20px rgba(255,92,58,0.4) !important;
+            background: linear-gradient(135deg, #FF3D6E, #FF5C3A) !important;
+            color: #fff !important;
+          }
+
+          /* Banner gradient background */
+          .banner-section-photo {
+            background: linear-gradient(135deg, #1A1A2E 0%, #16213E 100%) !important;
+          }
+
+          /* Section light background: warm cream */
+          .section.primary-light-background {
+            background-color: #FAFAF8 !important;
+          }
+
+          /* Headings: navy deep */
+          h1, h2, h3, h4, h5, h6 {
+            color: #1A1A2E !important;
+          }
+          .home-title, .text-white, .text-white h2 {
+            color: #fff !important;
+          }
+
+          /* Accent underlines and decorative elements */
+          .link-underline {
+            color: #FF5C3A !important;
+          }
+          .link-underline:hover {
+            color: #FF3D6E !important;
+          }
+          .link-underline.white-style {
+            color: #fff !important;
+          }
+
+          /* Advantages center item: coral gradient */
+          .advantages-wrap.center-item {
+            background: linear-gradient(135deg, #FF5C3A, #FF3D6E) !important;
+          }
+
+          /* Numbers section accent */
+          .numbers {
+            color: #00D4B8 !important;
+          }
+
+          /* Form inputs focus state */
+          .form-book-input:focus, .select-book:focus, .book-textarea:focus {
+            border-color: #FF5C3A !important;
+            box-shadow: 0 0 0 3px rgba(255,92,58,0.1) !important;
+          }
+
+          /* Form submit button */
+          .book-form-block input[type=submit] {
+            background: linear-gradient(135deg, #FF5C3A, #FF3D6E) !important;
+            border: none !important;
+            color: #fff !important;
+          }
+          .book-form-block input[type=submit]:hover {
+            transform: translateY(-2px) !important;
+            box-shadow: 0 6px 20px rgba(255,92,58,0.4) !important;
           }
           .section, .banner-section-photo {
             overflow: hidden;
@@ -169,7 +275,7 @@ export default function RootLayout({ children }) {
 
           /* Service card icons */
           .icon-work-wrapper {
-            background-color: rgba(26, 34, 56, 0.85) !important;
+            background: linear-gradient(135deg, #FF5C3A, #FF3D6E) !important;
             display: flex !important;
             align-items: center !important;
             justify-content: center !important;
