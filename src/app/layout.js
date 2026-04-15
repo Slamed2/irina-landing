@@ -266,6 +266,12 @@ export default function RootLayout({ children }) {
             }
           }
 
+          /* Logo: invert to white on dark navbar (before scroll) */
+          .logo-main {
+            filter: brightness(0) invert(1);
+            transition: filter 0.3s ease;
+          }
+
           /* Desktop: show nav inline */
           @media (min-width: 992px) {
             .w-nav[data-collapse='medium'] .w-nav-menu {
@@ -419,7 +425,7 @@ export default function RootLayout({ children }) {
               var scrolled = window.scrollY > 50;
               nav.style.backgroundColor = scrolled ? '#ffffff' : 'transparent';
               nav.style.boxShadow = scrolled ? '0 2px 10px rgba(0,0,0,0.08)' : 'none';
-              if(logo) logo.style.filter = scrolled ? 'invert(1)' : 'none';
+              if(logo) logo.style.filter = scrolled ? 'none' : 'brightness(0) invert(1)';
               if(burger) burger.style.filter = scrolled ? 'none' : 'invert(1)';
               allText.forEach(function(el){ el.style.color = scrolled ? '#1a2238' : ''; });
               dropdownToggles.forEach(function(t){
