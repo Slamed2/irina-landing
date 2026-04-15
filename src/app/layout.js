@@ -16,7 +16,7 @@ export default function RootLayout({ children }) {
         <link href="/css/irina-ab21b1.webflow.css" rel="stylesheet" type="text/css" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.min.css" />
         <link href="https://fonts.googleapis.com" rel="preconnect" />
-        <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
         <script dangerouslySetInnerHTML={{__html: `document.addEventListener('click', function(e){var link=e.target.closest('a[href^="#"]');if(!link)return;var id=link.getAttribute('href').slice(1);if(!id)return;var target=document.getElementById(id);if(!target)return;e.preventDefault();e.stopPropagation();var navMenu=document.querySelector('.nav-menu');if(navMenu&&navMenu.classList.contains('menu-open')){navMenu.classList.remove('menu-open');var bd=document.querySelector('.menu-backdrop');if(bd)bd.style.display='none';document.body.style.overflow='';}target.scrollIntoView({behavior:'smooth',block:'start'});}, true);`}} />
         <script dangerouslySetInnerHTML={{__html: `(function(){
           if(window._formReady) return;
@@ -145,11 +145,11 @@ export default function RootLayout({ children }) {
             background: linear-gradient(to bottom, #1A1A2E, #16213E) !important;
           }
 
-          /* Headlines: Syne font */
+          /* Headlines: Plus Jakarta Sans */
           h1, h2, h3, .home-title, .in-section-title, .services-titles, .accordion-title {
-            font-family: 'Syne', sans-serif !important;
+            font-family: 'Plus Jakarta Sans', sans-serif !important;
             font-weight: 800 !important;
-            letter-spacing: -2.5px !important;
+            letter-spacing: -1px !important;
           }
 
           /* Advantages center item: Coral */
