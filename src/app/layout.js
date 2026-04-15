@@ -167,9 +167,8 @@ export default function RootLayout({ children }) {
             border-color: #e74c3c !important;
           }
 
-          /* Service card icons: invert to white on dark backgrounds */
+          /* Service card icons */
           .icon-work-wrapper img {
-            filter: brightness(0) invert(1);
             width: 48px;
             height: 48px;
           }
