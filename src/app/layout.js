@@ -10,6 +10,8 @@ export default function RootLayout({ children }) {
     <html lang="es" data-wf-page="landing" data-wf-site="69d7e583131347cd56340660" suppressHydrationWarning style={{scrollBehavior: 'smooth'}}>
       <head>
         <meta charSet="utf-8" />
+        <link rel="icon" href="/favicon.ico" sizes="any" />
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
         <meta content="width=device-width, initial-scale=1" name="viewport" />
         <link href="/css/normalize.css" rel="stylesheet" type="text/css" />
         <link href="/css/webflow.css" rel="stylesheet" type="text/css" />
