@@ -266,11 +266,11 @@ export default function RootLayout({ children }) {
             }
           }
 
-          /* Logo swap */
+          /* Logo */
           .logo-main {
             height: 46px !important;
             width: auto !important;
-            transition: opacity 0.3s ease;
+            filter: none !important;
           }
 
           /* Desktop: show nav inline */
