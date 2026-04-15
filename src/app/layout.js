@@ -168,9 +168,15 @@ export default function RootLayout({ children }) {
           }
 
           /* Service card icons */
+          .icon-work-wrapper {
+            background-color: rgba(26, 34, 56, 0.85) !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+          }
           .icon-work-wrapper img {
-            width: 48px;
-            height: 48px;
+            width: 36px;
+            height: 36px;
           }
 
           /* Submit button: right-aligned, auto-width on desktop */
