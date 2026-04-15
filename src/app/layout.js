@@ -16,6 +16,7 @@ export default function RootLayout({ children }) {
         <link href="/css/irina-ab21b1.webflow.css" rel="stylesheet" type="text/css" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.min.css" />
         <link href="https://fonts.googleapis.com" rel="preconnect" />
+        <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
         <script dangerouslySetInnerHTML={{__html: `document.addEventListener('click', function(e){var link=e.target.closest('a[href^="#"]');if(!link)return;var id=link.getAttribute('href').slice(1);if(!id)return;var target=document.getElementById(id);if(!target)return;e.preventDefault();e.stopPropagation();var navMenu=document.querySelector('.nav-menu');if(navMenu&&navMenu.classList.contains('menu-open')){navMenu.classList.remove('menu-open');var bd=document.querySelector('.menu-backdrop');if(bd)bd.style.display='none';document.body.style.overflow='';}target.scrollIntoView({behavior:'smooth',block:'start'});}, true);`}} />
         <script dangerouslySetInnerHTML={{__html: `(function(){
           if(window._formReady) return;
@@ -84,15 +85,16 @@ export default function RootLayout({ children }) {
         <style dangerouslySetInnerHTML={{__html: `
           :root {
             --primary-dark: #1A1A2E !important;
-            --primary: #1A1A2E !important;
-            --primary-semi: rgba(26,26,46,0.4) !important;
-            --primary-light: #FFF0EC !important;
+            --primary: #16213E !important;
+            --primary-semi: rgba(22,33,62,0.4) !important;
+            --primary-light: #FAFAF8 !important;
           }
           body {
             overflow-x: hidden;
+            background-color: #FAFAF8;
           }
 
-          /* Buttons: coral gradient */
+          /* Buttons: Coral #FF5C3A → Hot Pink #FF3D6E */
           .primary-button {
             background-color: #FF5C3A !important;
             border-color: #FF5C3A !important;
@@ -130,6 +132,29 @@ export default function RootLayout({ children }) {
           .primary-button.outline-light:hover {
             background-color: rgba(255,255,255,0.15) !important;
             color: #fff !important;
+          }
+
+          /* Light background sections: Cream BG */
+          .section.primary-light-background {
+            background-color: #FAFAF8 !important;
+          }
+
+          /* Dark sections: Navy Deep → Navy Mid gradient */
+          .section.dark-background,
+          .section.banners-home-three {
+            background: linear-gradient(to bottom, #1A1A2E, #16213E) !important;
+          }
+
+          /* Headlines: Syne font */
+          h1, h2, h3, .home-title, .in-section-title, .services-titles, .accordion-title {
+            font-family: 'Syne', sans-serif !important;
+            font-weight: 800 !important;
+            letter-spacing: -2.5px !important;
+          }
+
+          /* Advantages center item: Coral */
+          .advantages-wrap.center-item {
+            background-color: #FF5C3A !important;
           }
           .section, .banner-section-photo {
             overflow: hidden;
@@ -213,7 +238,7 @@ export default function RootLayout({ children }) {
             border-color: #e74c3c !important;
           }
 
-          /* Service card icons */
+          /* Service card icons: Coral */
           .icon-work-wrapper {
             background-color: #FF5C3A !important;
             display: flex !important;
