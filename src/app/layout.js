@@ -171,8 +171,10 @@ export default function RootLayout({ children }) {
           }
           @media (max-width: 767px) {
             .banner-section-photo {
-              background-image: linear-gradient(to bottom, rgba(10,15,40,0.75) 0%, rgba(10,15,40,0.55) 50%, rgba(10,15,40,0.3) 100%), url('/images/hero-banner.jpg') !important;
-              background-position: right center !important;
+              background-image: linear-gradient(to bottom, rgba(10,15,40,0.85) 0%, rgba(10,15,40,0.5) 45%, rgba(10,15,40,0.2) 100%), url('/images/hero-banner.jpg') !important;
+              background-position: 75% center !important;
+              background-size: auto 100% !important;
+              min-height: 650px !important;
             }
           }
           [data-w-id] {
