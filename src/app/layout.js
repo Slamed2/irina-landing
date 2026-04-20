@@ -169,6 +169,12 @@ export default function RootLayout({ children }) {
             background-size: cover !important;
             background-repeat: no-repeat !important;
           }
+          @media (max-width: 767px) {
+            .banner-section-photo {
+              background-image: linear-gradient(to bottom, rgba(10,15,40,0.75) 0%, rgba(10,15,40,0.55) 50%, rgba(10,15,40,0.3) 100%), url('/images/hero-banner.jpg') !important;
+              background-position: right center !important;
+            }
+          }
           [data-w-id] {
             opacity: 0;
             transform: translateY(24px);
