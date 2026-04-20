@@ -161,6 +161,14 @@ export default function RootLayout({ children }) {
           .section, .banner-section-photo {
             overflow: hidden;
           }
+
+          /* Hero banner: custom background image */
+          .banner-section-photo {
+            background-image: linear-gradient(to right, rgba(10,15,40,0.75) 0%, rgba(10,15,40,0.3) 60%, rgba(10,15,40,0) 100%), url('/images/hero-banner.jpg') !important;
+            background-position: center center !important;
+            background-size: cover !important;
+            background-repeat: no-repeat !important;
+          }
           [data-w-id] {
             opacity: 0;
             transform: translateY(24px);
