@@ -12,6 +12,14 @@ export default function RootLayout({ children }) {
         <meta charSet="utf-8" />
         <link rel="icon" href="/favicon.ico" sizes="any" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+        {/* Google Ads tag (gtag.js) */}
+        <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18096097519"></script>
+        <script dangerouslySetInnerHTML={{__html: `
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'AW-18096097519');
+        `}} />
         <meta content="width=device-width, initial-scale=1" name="viewport" />
         <link href="/css/normalize.css" rel="stylesheet" type="text/css" />
         <link href="/css/webflow.css" rel="stylesheet" type="text/css" />
