@@ -286,7 +286,7 @@ export default function RootLayout({ children }) {
 
           /* Logo */
           .logo-main {
-            height: 46px !important;
+            height: 58px !important;
             width: auto !important;
             filter: none !important;
           }
