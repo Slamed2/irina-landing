@@ -184,6 +184,49 @@ export default function RootLayout({ children }) {
               background-size: cover !important;
               min-height: 700px !important;
             }
+            /* Mobile font size adjustments */
+            .home-title {
+              font-size: 34px !important;
+              line-height: 1.15 !important;
+              margin-bottom: 15px !important;
+            }
+            .home-banner-discription {
+              font-size: 14px !important;
+              line-height: 1.5 !important;
+              width: 95% !important;
+            }
+            .numbers {
+              font-size: 28px !important;
+              line-height: 1.1 !important;
+            }
+            .numbers-text {
+              font-size: 12px !important;
+              line-height: 1.3 !important;
+            }
+            .in-section-title {
+              font-size: 28px !important;
+              line-height: 1.2 !important;
+            }
+            .accordion-title {
+              font-size: 18px !important;
+            }
+            .services-titles {
+              font-size: 22px !important;
+            }
+          }
+          @media (max-width: 479px) {
+            .home-title {
+              font-size: 28px !important;
+            }
+            .home-banner-discription {
+              font-size: 13px !important;
+            }
+            .numbers {
+              font-size: 22px !important;
+            }
+            .in-section-title {
+              font-size: 24px !important;
+            }
           }
           [data-w-id] {
             opacity: 0;
