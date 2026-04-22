@@ -54,7 +54,7 @@ export default function RootLayout({ children }) {
                   // Google Ads conversion tracking
                   if(typeof gtag === 'function'){
                     gtag('event', 'conversion', {
-                      'send_to': 'AW-18096097519/73_uCMOnnaAcEO-R8rRD',
+                      'send_to': 'AW-18096097519/-cPZCMbUnaAcEO-R8rRD',
                       'value': 1.0,
                       'currency': 'USD'
                     });
