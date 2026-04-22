@@ -51,6 +51,14 @@ export default function RootLayout({ children }) {
                 if(r.ok){
                   form.style.display = 'none';
                   if(ok) ok.style.display = 'block';
+                  // Google Ads conversion tracking
+                  if(typeof gtag === 'function'){
+                    gtag('event', 'conversion', {
+                      'send_to': 'AW-18096097519/73_uCMOnnaAcEO-R8rRD',
+                      'value': 1.0,
+                      'currency': 'USD'
+                    });
+                  }
                 } else {
                   if(err) err.style.display = 'block';
                   if(btn){ btn.value = 'Enviar solicitud'; btn.disabled = false; }
