@@ -162,6 +162,14 @@ export default function RootLayout({ children }) {
             overflow: hidden;
           }
 
+          /* Video section (Para la comunidad latina): Piccadilly Circus background */
+          .video-big {
+            background-image: linear-gradient(to top, rgba(0,0,0,0.6), rgba(0,0,0,0.3)), linear-gradient(rgba(10,15,40,0.5), rgba(10,15,40,0.5)), url('/images/piccadilly-brands.jpg') !important;
+            background-position: 0 0, 0 0, center center !important;
+            background-size: auto, auto, cover !important;
+            background-repeat: repeat, repeat, no-repeat !important;
+          }
+
           /* Hero banner: custom background image */
           .banner-section-photo {
             background-image: linear-gradient(to right, rgba(10,15,40,0.75) 0%, rgba(10,15,40,0.3) 60%, rgba(10,15,40,0) 100%), url('/images/hero-banner.jpg') !important;
