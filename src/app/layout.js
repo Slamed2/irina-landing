@@ -35,8 +35,41 @@ export default function RootLayout({ children }) {
             var form = document.getElementById('contact-form');
             if(!form || form._bound) return;
             form._bound = true;
+
+            // Validate before any submit/tracking event fires (capture phase)
+            function isFormValid(){
+              var fullName = (form.querySelector('[name=full_name]')||{}).value || '';
+              var email = (form.querySelector('[name=email]')||{}).value || '';
+              var phone = (form.querySelector('[name=phone]')||{}).value || '';
+              var servicio = (form.querySelector('[name=servicio]')||{}).value || '';
+              if(!fullName.trim() || fullName.trim().length < 2) return false;
+              if(!email.trim() || !/^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$/.test(email.trim())) return false;
+              if(!phone.trim() || phone.replace(/\\D/g,'').length < 7) return false;
+              if(!servicio.trim()) return false;
+              return true;
+            }
+
+            // Block click on submit if form is invalid (prevents GHL/GTM tracking on empty submits)
+            var submitBtn = form.querySelector('input[type=submit], button[type=submit]');
+            if(submitBtn){
+              submitBtn.addEventListener('click', function(e){
+                if(!isFormValid()){
+                  e.preventDefault();
+                  e.stopImmediatePropagation();
+                  // Trigger native HTML5 validation to show field-by-field errors
+                  if(typeof form.reportValidity === 'function') form.reportValidity();
+                  return false;
+                }
+              }, true);
+            }
+
             form.addEventListener('submit', function(e){
               e.preventDefault();
+              if(!isFormValid()){
+                e.stopImmediatePropagation();
+                if(typeof form.reportValidity === 'function') form.reportValidity();
+                return false;
+              }
               var fd = new FormData(form);
               if(!fd.has('form-name')) fd.append('form-name','service-form');
               var ok = document.getElementById('form-success');
