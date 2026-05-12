@@ -388,7 +388,12 @@ export default function RootLayout({ children }) {
           .logo-main {
             height: 58px !important;
             width: auto !important;
-            filter: none !important;
+            filter: none;
+            transition: filter 0.3s ease;
+          }
+          /* Invert logo when navbar has scrolled (white background) */
+          .navbar-fixed.scrolled .logo-main {
+            filter: invert(1);
           }
 
           /* Desktop: show nav inline */
@@ -541,6 +546,7 @@ export default function RootLayout({ children }) {
             if(burger) burger.style.transition = 'filter 0.3s ease';
             function applyScroll(){
               var scrolled = window.scrollY > 50;
+              if(scrolled){ nav.classList.add('scrolled'); } else { nav.classList.remove('scrolled'); }
               nav.style.backgroundColor = scrolled ? '#ffffff' : 'transparent';
               nav.style.boxShadow = scrolled ? '0 2px 10px rgba(0,0,0,0.08)' : 'none';
               if(burger) burger.style.filter = scrolled ? 'none' : 'invert(1)';
