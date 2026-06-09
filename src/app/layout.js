@@ -559,7 +559,7 @@ export default function RootLayout({ children }) {
       <body suppressHydrationWarning>
         {children}
         <a
-          href="https://wa.me/13057988878?text=Hola%2C%20me%20interesa%20registrar%20mi%20marca%20en%20USA"
+          href="https://wa.me/13053326685?text=Hola%2C%20me%20interesa%20registrar%20mi%20marca%20en%20USA"
           target="_blank"
           rel="noopener noreferrer"
           aria-label="Contactar por WhatsApp"
