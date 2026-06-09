@@ -19,6 +19,60 @@ export default function RootLayout({ children }) {
           function gtag(){dataLayer.push(arguments);}
           gtag('js', new Date());
           gtag('config', 'AW-18096097519');
+
+          /* Google Ads conversion: outbound click (tel + WhatsApp) */
+          window.gtag_report_conversion = function(url){
+            var callback = function(){
+              if(typeof url !== 'undefined'){ window.location = url; }
+            };
+            gtag('event', 'conversion', {
+              'send_to': 'AW-18096097519/Bjv_CMzp3LscEO-R8rRD',
+              'value': 1.0,
+              'currency': 'USD',
+              'event_callback': callback
+            });
+            return false;
+          };
+
+          /* Auto-bind to tel: and wa.me links */
+          (function(){
+            function bindOutboundLinks(){
+              var links = document.querySelectorAll('a[href^="tel:"], a[href*="wa.me/"], a[href*="api.whatsapp.com/"]');
+              links.forEach(function(link){
+                if(link._convBound) return;
+                link._convBound = true;
+                link.addEventListener('click', function(e){
+                  var href = link.getAttribute('href');
+                  /* For tel: keep default behavior (dialer opens) and fire event in parallel */
+                  if(href && href.indexOf('tel:') === 0){
+                    if(typeof gtag === 'function'){
+                      gtag('event', 'conversion', {
+                        'send_to': 'AW-18096097519/Bjv_CMzp3LscEO-R8rRD',
+                        'value': 1.0,
+                        'currency': 'USD'
+                      });
+                    }
+                    /* Don't preventDefault — let phone dialer open */
+                    return;
+                  }
+                  /* For WhatsApp (new tab) — also fire and let target=_blank open */
+                  if(typeof gtag === 'function'){
+                    gtag('event', 'conversion', {
+                      'send_to': 'AW-18096097519/Bjv_CMzp3LscEO-R8rRD',
+                      'value': 1.0,
+                      'currency': 'USD'
+                    });
+                  }
+                });
+              });
+            }
+            if(document.readyState === 'loading'){
+              document.addEventListener('DOMContentLoaded', bindOutboundLinks);
+            } else { bindOutboundLinks(); }
+            /* Re-bind in case React hydrates after */
+            setTimeout(bindOutboundLinks, 1000);
+            setTimeout(bindOutboundLinks, 3000);
+          })();
         `}} />
         <meta content="width=device-width, initial-scale=1" name="viewport" />
         <link href="/css/normalize.css" rel="stylesheet" type="text/css" />
