@@ -82,83 +82,28 @@ export default function RootLayout({ children }) {
         <link href="https://fonts.googleapis.com" rel="preconnect" />
         <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
         <script dangerouslySetInnerHTML={{__html: `document.addEventListener('click', function(e){var link=e.target.closest('a[href^="#"]');if(!link)return;var id=link.getAttribute('href').slice(1);if(!id)return;var target=document.getElementById(id);if(!target)return;e.preventDefault();e.stopPropagation();var navMenu=document.querySelector('.nav-menu');if(navMenu&&navMenu.classList.contains('menu-open')){navMenu.classList.remove('menu-open');var bd=document.querySelector('.menu-backdrop');if(bd)bd.style.display='none';document.body.style.overflow='';}target.scrollIntoView({behavior:'smooth',block:'start'});}, true);`}} />
+        {/* GHL/LeadConnector form embed script */}
+        <script src="https://link.msgsndr.com/js/form_embed.js" async></script>
         <script dangerouslySetInnerHTML={{__html: `(function(){
-          if(window._formReady) return;
-          window._formReady = true;
-          function initForm(){
-            var form = document.getElementById('contact-form');
-            if(!form || form._bound) return;
-            form._bound = true;
-
-            // Validate before any submit/tracking event fires (capture phase)
-            function isFormValid(){
-              var fullName = (form.querySelector('[name=full_name]')||{}).value || '';
-              var email = (form.querySelector('[name=email]')||{}).value || '';
-              var phone = (form.querySelector('[name=phone]')||{}).value || '';
-              var servicio = (form.querySelector('[name=servicio]')||{}).value || '';
-              if(!fullName.trim() || fullName.trim().length < 2) return false;
-              if(!email.trim() || !/^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$/.test(email.trim())) return false;
-              if(!phone.trim() || phone.replace(/\\D/g,'').length < 7) return false;
-              if(!servicio.trim()) return false;
-              return true;
-            }
-
-            // Block click on submit if form is invalid (prevents GHL/GTM tracking on empty submits)
-            var submitBtn = form.querySelector('input[type=submit], button[type=submit]');
-            if(submitBtn){
-              submitBtn.addEventListener('click', function(e){
-                if(!isFormValid()){
-                  e.preventDefault();
-                  e.stopImmediatePropagation();
-                  // Trigger native HTML5 validation to show field-by-field errors
-                  if(typeof form.reportValidity === 'function') form.reportValidity();
-                  return false;
-                }
-              }, true);
-            }
-
-            form.addEventListener('submit', function(e){
-              e.preventDefault();
-              if(!isFormValid()){
-                e.stopImmediatePropagation();
-                if(typeof form.reportValidity === 'function') form.reportValidity();
-                return false;
-              }
-              var fd = new FormData(form);
-              if(!fd.has('form-name')) fd.append('form-name','service-form');
-              var ok = document.getElementById('form-success');
-              var err = document.getElementById('form-error');
-              var btn = form.querySelector('input[type=submit]');
-              if(btn){ btn.value = 'Enviando...'; btn.disabled = true; }
-              fetch('/__forms.html', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-                body: new URLSearchParams(fd).toString()
-              }).then(function(r){
-                if(r.ok){
-                  form.style.display = 'none';
-                  if(ok) ok.style.display = 'block';
-                  // Google Ads conversion tracking
-                  if(typeof gtag === 'function'){
-                    gtag('event', 'conversion', {
-                      'send_to': 'AW-18096097519/-cPZCMbUnaAcEO-R8rRD',
-                      'value': 1.0,
-                      'currency': 'USD'
-                    });
-                  }
-                } else {
-                  if(err) err.style.display = 'block';
-                  if(btn){ btn.value = 'Enviar solicitud'; btn.disabled = false; }
-                }
-              }).catch(function(){
-                if(err) err.style.display = 'block';
-                if(btn){ btn.value = 'Enviar solicitud'; btn.disabled = false; }
+          if(window._ghlFormReady) return;
+          window._ghlFormReady = true;
+          /* Listen for GHL form submission postMessage and fire Google Ads conversion */
+          window.addEventListener('message', function(e){
+            if(!e || !e.data) return;
+            var d = e.data;
+            var type = (typeof d === 'string') ? d : (d.type || d.event || '');
+            if(typeof d === 'object' && d.formId && d.formId !== 'W21gdPlxvHD8skukdhxl' && d.form_id !== 'W21gdPlxvHD8skukdhxl') return;
+            /* GHL emits several possible messages on submit: form:submit, form_submitted, formSubmit, ghl_form_submitted */
+            var isSubmit = /form.*submit|submit.*form|formSubmitted|form_submitted/i.test(String(type));
+            if(!isSubmit) return;
+            if(typeof gtag === 'function'){
+              gtag('event', 'conversion', {
+                'send_to': 'AW-18096097519/-cPZCMbUnaAcEO-R8rRD',
+                'value': 1.0,
+                'currency': 'USD'
               });
-            });
-          }
-          if(document.readyState === 'loading'){
-            document.addEventListener('DOMContentLoaded', initForm);
-          } else { initForm(); }
+            }
+          });
         })();`}} />
         <script dangerouslySetInnerHTML={{__html: `document.addEventListener('DOMContentLoaded', function(){
           var menuBtn = document.querySelector('.menu-button');
